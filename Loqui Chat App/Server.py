@@ -5,7 +5,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 HEADER = 2048
 PORT = 32973
-SERVER = "196.252.213.177"
+SERVER = socket.gethostname()
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MSG = "!DISCONNECT"
