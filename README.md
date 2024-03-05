@@ -1,2 +1,2 @@
 # Portfolio
-A portfolio of my contributions on projects I have worked on
+A portfolio of my projects and contributions to school projects I worked on
