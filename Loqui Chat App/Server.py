@@ -5,7 +5,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 HEADER = 2048
 PORT = 32973
-SERVER = socket.gethostname()
+SERVER = "196.252.213.177"
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MSG = "!DISCONNECT"
@@ -18,11 +18,12 @@ lock = threading.Lock()
 
 
 def broadcast(message):
-    for client in clients:
-        try:
-            client.send(message)
-        except socket.error as e:
-            print(f"Error sending message to client: {e}")
+    with lock:
+        for client in clients[:]:
+            try:
+                client.send(message)
+            except socket.error as e:
+                print(f"Error sending message to client: {e}")
 
 
 def handle_client(client, address):
@@ -57,6 +58,12 @@ def handle_client(client, address):
                 break
     except ConnectionResetError:
         print(f"Connection with {username} forcibly closed by the remote host.")
+        with lock:
+            if client in clients:
+                clients.remove(client)
+            if username in usernames:
+                usernames.remove(username)
+        client.close()
 
 
 def start():
